@@ -8,6 +8,7 @@ import json
 
 import argparse
 
+# following values(URL,FILENAME) are dummy and sample values
 URL = "https://scholar.google.co.jp/scholar?start=10&hl=ja&as_sdt=2005&sciodt=0,5&cites=3982677450424843587&scipsc="
 FILENAME = "Minimal solvers for generalized pose and scale estimation from two rays and one point2"
 
@@ -94,9 +95,10 @@ if __name__ == "__main__":
     help='A Page URL in Google Sholar ')
   parser.add_argument('Filename', metavar='F', type=str, nargs='+',
     help='Filename for saving data')
+  args = parser.parse_args()
 
-  FILENAME = parser.Filename
-  URL = parser.URL
+  FILENAME = args.Filename[0]
+  URL = args.URL[0]
   list_dict_result = []
   result = get_dict_link_data(list_dict_result)
   #print (result)
