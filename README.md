@@ -37,5 +37,23 @@ This file is formatted by same format that program *search_with_selenium.py*.
 
 So, you can append this data created by *module_scraping.py* to existing data. 
 
+
+### re_index.py
+
+This program replaces same ids to sanity ids.
+If you want to marge other scraping data, you can use this program.
+
+#### usage
+
+Require one argument Filename. The filename is json foramt, so filename is like "hogehoge.json".
+For example...
+
+```
+python re_index.py "hogehoge.json"
+```
+
+NOTE: This progam makes temp file that is named *temp_reindex.json*. This file is gavege. 
+
+
 ----
 
