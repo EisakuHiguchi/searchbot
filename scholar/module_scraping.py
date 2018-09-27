@@ -41,18 +41,13 @@ def get_dict_link_data(list_dict_result):
 
 
 def savejson_dict(list_dict_results):
-  print("saving data formatted json...")
   count = 1
   json_data_temp = {}
   for e in list_dict_results:
     json_data_temp["id_" + str(count)] = e
     count += 1
+  format_json.savejson_dict(json_data_temp, FILENAME + ".json")
   
-  f = open(FILENAME + ".json", "w", encoding="utf-8")
-  json.dump(json_data_temp, f, ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ': '))
-  f.close()
-  print("save done!")
-
 
 # ---- ----
 # main

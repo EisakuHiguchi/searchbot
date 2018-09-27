@@ -1,5 +1,6 @@
 
 import re
+import json
 
 def extractdata_finded_list(list_data):
   if len(list_data) < 1:
@@ -33,3 +34,17 @@ def get_dict_data_sub(section):
   dict_temp["year"] = list_temp[2]
   dict_temp["comment"] = ""
   return dict_temp
+
+
+def savejson_dict(json_data_temp, filename):
+  print("saving data formatted json...")
+  f = open(filename, "w", encoding="utf-8")
+  json.dump(json_data_temp, f, ensure_ascii=False, indent=2, sort_keys=True, separators=(',', ': '))
+  f.close()
+  print("save done!")
+
+def loadjson(filename):
+  f = open(filename, "r", encoding="utf-8")
+  jsonData = json.load(f)
+  f.close()
+  return jsonData
