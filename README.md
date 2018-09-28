@@ -60,8 +60,39 @@ NOTE: This progam makes temp file that is named *temp_reindex.json*. This file i
 
 ----
 
-### search_with_selnium.py
+### search_with_selenium.py
 
+This program gets Google Scholar result formated json.
+This program uses overlooking research papers. You may add tags each paper data.
+Using *network_from_json.py*, shows tag cloud image.
+
+### requires
+
++ selenium(Edge)
++ beautifulsoup4
+
+Require selenium webdriver. Donwload selenium driver [here](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/). Now version uses Edge webdriver.
+
+```
+pip install selenium beautifulsoup4
+```
+
+#### usage
+
+1. run *search_with_selenium.py*
+2. wait standing up webbrowser
+3. input search keyword in python interface
+4. start scraping Google Scholar result by search keyword
+5. if you want to get a next page data, you type "next"
+6. type "end" to close this program
+
+command list
++ end
+  + fniish this program
++ next
+  + get next page data
++ reload
+  + get now opened page data
 
 
 ----
