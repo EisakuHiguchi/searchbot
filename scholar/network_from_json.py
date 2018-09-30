@@ -60,6 +60,11 @@ def plot_save_nx(G, filename_plot):
   G.clear()
 
 def create_tag_cloud(prm, filename_json):
+  if prm < 0:
+    prm_least_flag = True
+  else:
+    prm_least_flag = False
+  
   jsonData = format_json.loadjson(filename_json)
   taglist = [] 
   for key in jsonData.keys():
@@ -70,46 +75,20 @@ def create_tag_cloud(prm, filename_json):
 
   G = nx.Graph()
   if prm == 0:
-    G.add_nodes_from([(tag, {"count":count}) for tag, count in tag_count.most_common()])
+    temp_most_common = tag_count.most_common()
+    str_prm = "all"
   else:
-    G.add_nodes_from([(tag, {"count":count}) for tag, count in tag_count.most_common(prm)])
+    if prm_least_flag:
+      temp_most_common = tag_count.most_common()[prm:]
+    else:
+      temp_most_common = tag_count.most_common(prm)
+    str_prm = str(prm)
+  G.add_nodes_from([(tag, {"count":count}) for tag, count in temp_most_common])
   G = add_edges(G, taglist)
   define_plt_pram(G)
 
-  filename_plot = get_filename_savefig(filename_json) + "_CLOUD"
+  filename_plot = get_filename_savefig(filename_json) + "_CLOUD_" + str_prm
   plot_save_nx(G, filename_plot)
-
-def remove_lesswords(listdata):
-  temp = []
-  for e in listdata:
-      if len(e) > 3:
-        temp.append(e.lower().replace(",","").replace(".",""))
-  return temp
-
-def create_text_cloud(prm, filename_json, prm_least_flag = False):
-  jsonData = format_json.loadjson(filename_json)
-  taglist = [] 
-  
-  for key in jsonData.keys():
-    taglist.append(remove_lesswords(jsonData[key]["summary"].split(" ")))
-    taglist.append(remove_lesswords(jsonData[key]["title"].split(" ")))
-    taglist.append(jsonData[key]["tags"][1:])
-  
-  tag_count = collections.Counter(itertools.chain.from_iterable(taglist))
-  G = nx.Graph()
-  listlen = len(tag_count.most_common())
-  
-  if prm_least_flag:
-    G.add_nodes_from([(tag, {"count":count}) for tag, count in tag_count.most_common()[-prm:]])
-  else:
-    G.add_nodes_from([(tag, {"count":count}) for tag, count in tag_count.most_common(prm)])
-  
-  G = add_edges(G, taglist)
-  define_plt_pram(G)
-
-  filename_plot = get_filename_savefig(filename_json) + "_WORDS_CLOUD"
-  plot_save_nx(G, filename_plot)
-
 
 def create_year_map(filename_json):
   jsonData = format_json.loadjson(filename_json)
@@ -177,8 +156,6 @@ def create_year_map(filename_json):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument('Filename', metavar='F', type=str, nargs='+',help='Filename for saving data')
-  parser.add_argument("-w", "--words", type=bool, default=False)
-  parser.add_argument("-wp", "--wordprm", type=int, default=15)
   parser.add_argument("-t", "--tags", type=bool, default=True)
   parser.add_argument("-tp", "--tagprm", type=int, default=0)
   parser.add_argument("-y", "--years", type=bool, default=False)
@@ -186,15 +163,11 @@ if __name__ == "__main__":
 
   filename_json = args.Filename[0]
 
-  if args.words:
-    print("create words_cloud:" + str(args.wordprm))
-    create_text_cloud(args.wordprm, filename_json)
   if args.tags:
     if args.tagprm == 0:
       print("create tag_cloud: all")
     else:
       print("create tag_cloud:" + str(args.tagprm))
-    
     create_tag_cloud(args.tagprm, filename_json)
   if args.years:
     print("create year_map")
