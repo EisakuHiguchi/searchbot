@@ -17,9 +17,9 @@ def auto_tagging(jsondata):
         sentence = jsondata[key]["summary"]
         token = nltk.word_tokenize(sentence)
         text = nltk.Text(token)
-        fdist = nltk.FreqDist(stemmer.stem(w.lower()) for w in text if w.lower() not in stopwords + symbols)
+        fdist = nltk.FreqDist(w.lower() for w in text if w.lower() not in stopwords + symbols)
         tagged = nltk.pos_tag(fdist)
-        temp = [w[0] for w in tagged if w[1] not in exclude_list]
+        temp = nltk.FreqDist(stemmer.stem(w[0]) for w in tagged if w[1] not in exclude_list)
         jsondata[key]["tags"] = temp
     return jsondata
 

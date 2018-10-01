@@ -69,7 +69,16 @@ def savejson(list_dict_results, filename):
     count += 1
   format_json.savejson_dict(json_data_temp, filename)
   
-  
+def loadjson(filename):
+  list_dict_results = []
+  dict_json = format_json.loadjson(filename)
+  if dict_json == -1:
+    print("error: Not Found file. Create new file")
+  else:
+    for key in dict_json.keys():
+      list_dict_results.append(dict_json[key])
+  return list_dict_results
+
 # ---- ---- ---- ----
 # main
 
@@ -78,18 +87,12 @@ argparser.add_argument("-d", "--debug", type=bool, default=False)
 args = argparser.parse_args()
 
 DEBUG = args.debug
-list_dict_results = []
 
 filename = input("FILEPATH:")
-dict_json = format_json.loadjson(filename)
-if dict_json == -1:
-  print("error: Not Found file. create new file " + filename)
-  #driver.close()
-  #sys.exit()
-else:
-  for key in dict_json.keys():
-    list_dict_results.append(dict_json[key])
+list_dict_results = loadjson(filename)
 
+
+command = "continue"
 if DEBUG:
   print("debug mode")
 else:
@@ -99,8 +102,11 @@ else:
     if command == "next":
       click_next()
       list_dict_results = get_dict_link_data(list_dict_results)
+      savejson(list_dict_results, filename)
     if command == "reload":
       list_dict_results = get_dict_link_data(list_dict_results)
+      savejson(list_dict_results, filename)
+    list_dict_results = loadjson(filename)
 
   savejson(list_dict_results, filename)
   driver.close()

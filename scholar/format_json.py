@@ -44,7 +44,12 @@ def savejson_dict(json_data_temp, filename):
   print("save done!")
 
 def loadjson(filename):
-  f = open(filename, "r", encoding="utf-8")
-  jsonData = json.load(f)
-  f.close()
-  return jsonData
+  try:
+    f = open(filename, "r", encoding="utf-8")
+    jsonData = json.load(f)
+    f.close()
+    return jsonData
+  except:
+    print("error: format_json.loadjson")
+    print(filename)
+    return -1
