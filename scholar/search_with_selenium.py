@@ -98,7 +98,8 @@ if DEBUG:
 else:
   while command != "end":
     command = input(">>> ")
-
+    list_dict_results = loadjson(filename)
+    
     if command == "next":
       click_next()
       list_dict_results = get_dict_link_data(list_dict_results)
@@ -106,7 +107,7 @@ else:
     if command == "reload":
       list_dict_results = get_dict_link_data(list_dict_results)
       savejson(list_dict_results, filename)
-    list_dict_results = loadjson(filename)
+    
 
   savejson(list_dict_results, filename)
   driver.close()
