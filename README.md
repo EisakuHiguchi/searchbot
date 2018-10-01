@@ -2,11 +2,9 @@
 support searching tasks
 
 ----
-----
 
 ## scholar
 
-----
 
 ### module_scraping.py
 
@@ -40,7 +38,6 @@ This file is formatted by same format that program *search_with_selenium.py*.
 
 So, you can append this data created by *module_scraping.py* to existing data. 
 
-----
 
 ### re_index.py
 
@@ -58,7 +55,6 @@ python re_index.py "hogehoge.json"
 
 NOTE: This progam makes temp file that is named *temp_reindex.json*. This file is gavege. 
 
-----
 
 ### search_with_selenium.py
 
@@ -81,10 +77,9 @@ pip install selenium beautifulsoup4
 
 1. run *search_with_selenium.py*
 2. wait standing up webbrowser
-3. input search keyword in python interface
-4. start scraping Google Scholar result by search keyword
-5. if you want to get a next page data, you type "next"
-6. type "end" to close this program
+3. input filename python interface
+4. if you want to get a page data, you type "reload"
+5. type "end" to close this program
 
 command list
 + end
@@ -95,5 +90,4 @@ command list
   + get now opened page data
 
 
-----
 
