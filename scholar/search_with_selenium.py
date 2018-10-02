@@ -74,6 +74,9 @@ def loadjson(filename):
   dict_json = format_json.loadjson(filename)
   if dict_json == -1:
     print("error: Not Found file. Create new file")
+    if ".json" not in filename:
+      filename += ".json"
+    savejson(list_dict_results, filename)
   else:
     for key in dict_json.keys():
       list_dict_results.append(dict_json[key])
