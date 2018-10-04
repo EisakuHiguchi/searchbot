@@ -6,7 +6,7 @@ import sys
 from time import sleep
 from bs4 import BeautifulSoup
 import json
-import random
+from datetime import datetime
 
 import format_json
 
@@ -64,9 +64,13 @@ def get_dict_link_data(list_dict_result):
 def savejson(list_dict_results, filename):
   count = 1
   json_data_temp = {}
-  for e in list_dict_results:
-    json_data_temp["id_" + str(count)] = e
-    count += 1
+  for i in range(0,len(list_dict_results)):
+    e = list_dict_results[i]
+    if "__metadata__" in e["tags"]:
+      json_data_temp["id_0"] = e
+    else:
+      json_data_temp["id_" + str(count)] = e
+      count += 1
   format_json.savejson_dict(json_data_temp, filename)
   
 def loadjson(filename):
@@ -82,6 +86,27 @@ def loadjson(filename):
       list_dict_results.append(dict_json[key])
   return list_dict_results
 
+def initialize_json(filename):
+  list_dict_results = loadjson(filename)
+
+  dict_metadata = {}
+  for i in range(0,len(list_dict_results)):
+    if "__metadata__" in list_dict_results[i]["tags"]:
+      dict_metadata = list_dict_results.pop(i)
+      break
+  if len(dict_metadata) == 0:
+    title = "__metadata__"
+    tags = ["__metadata__", nowtime]
+    dict_metadata = format_json.format_dict_data(title, tags)
+  else:
+    dict_metadata["tags"].append(nowtime)
+  list_dict_results.insert(0, dict_metadata)
+  savejson(list_dict_results, filename)
+
+  return list_dict_results
+
+
+
 # ---- ---- ---- ----
 # main
 
@@ -90,10 +115,12 @@ argparser.add_argument("-d", "--debug", type=bool, default=False)
 args = argparser.parse_args()
 
 DEBUG = args.debug
+nowtime = datetime.now().strftime("%Y-%m-%d_%H%M%S")
 
 filename = input("FILEPATH:")
-list_dict_results = loadjson(filename)
-
+if ".json" not in filename:
+      filename += ".json"
+list_dict_results = initialize_json(filename)
 
 command = "continue"
 if DEBUG:

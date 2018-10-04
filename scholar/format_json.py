@@ -24,16 +24,25 @@ def get_link_data_subcore(section):
 
   return [str_title, str_summary, str_year]
   
+def format_dict_data(title, tags, summary="", year="none", comment=""):
+  dict_temp = {}
+  dict_temp["title"] = title
+  dict_temp["summary"] = summary
+  dict_temp["tags"] = tags
+  dict_temp["year"] = year
+  dict_temp["comment"] = comment
+  return dict_temp
 
 def get_dict_data_sub(section):
   list_temp = get_link_data_subcore(section)
-  dict_temp = {}
-  dict_temp["title"] = list_temp[0]
-  dict_temp["summary"] = list_temp[1].replace("\n", " ")
-  dict_temp["tags"] = [""]
-  dict_temp["year"] = list_temp[2]
-  dict_temp["comment"] = ""
-  return dict_temp
+
+  title = list_temp[0]
+  summary = list_temp[1].replace("\n", " ")
+  tags = [""]
+  year = list_temp[2]
+  comment = ""
+
+  return format_dict_data(title, summary, tags, year=yaer, comment=comment)
 
 
 def savejson_dict(json_data_temp, filename):
