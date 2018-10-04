@@ -54,10 +54,13 @@ def get_dict_link_data(list_dict_result):
   list_section = get_link_section(soup)
   for e in list_section:
     dict_temp = format_json.get_dict_data_sub(e)
-    if not dict_temp in list_dict_result:
-      list_dict_result.append(dict_temp)
-    else:
+    if dict_temp in list_dict_result:
       print("same page")
+      continue
+    if "[引用]" in dict_temp["title"]:
+      print("eclude [引用]")
+      continue
+    list_dict_result.append(dict_temp)
   
   return list_dict_result
 
