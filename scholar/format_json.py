@@ -42,7 +42,7 @@ def get_dict_data_sub(section):
   year = list_temp[2]
   comment = ""
 
-  return format_dict_data(title, summary, tags, year=year, comment=comment)
+  return format_dict_data(title, tags, summary=summary, year=year, comment=comment)
 
 
 def savejson_dict(json_data_temp, filename):
